@@ -287,7 +287,7 @@ st.markdown("""
 
     /* ── Hide default Streamlit branding ── */
     #MainMenu {visibility: hidden;}
-    header {visibility: hidden;}
+    /* header {visibility: hidden;}  <- Commented out so the sidebar expand button remains visible */
     footer {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
