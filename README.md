@@ -1,8 +1,8 @@
-# 💜 SafeSpace — Trauma-Informed AI Support Chatbot
+# 🌿 Nayi Disha — Trauma-Informed AI Support Chatbot
 
 A compassionate AI chatbot designed to provide a safe, low-barrier entry point for women and children who have experienced abuse. SafeSpace listens with empathy, validates feelings, and provides real-time trauma categorization to help understand the nature of the situation.
 
-> ⚠️ **Disclaimer:** SafeSpace is an AI support tool and does **not** replace professional counseling, therapy, or legal advice. If you are in danger, please contact emergency services immediately.
+> ⚠️ **Disclaimer:** Nayi Disha is an AI support tool and does **not** replace professional counseling, therapy, or legal advice. If you are in danger, please contact emergency services immediately.
 
 ## 🌟 Features
 
@@ -59,7 +59,7 @@ The app will open at `http://localhost:8501`
 
 ```bash
 git add .
-git commit -m "SafeSpace: trauma-informed AI chatbot"
+git commit -m "Nayi Disha: trauma-informed AI chatbot"
 git push origin main
 ```
 
