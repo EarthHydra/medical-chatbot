@@ -435,6 +435,17 @@ def main():
         avatar = "🌿" if message["role"] == "assistant" else None
         with st.chat_message(message["role"], avatar=avatar if message["role"] == "assistant" else None):
             st.markdown(message["content"])
+            
+            # If this message has source docs saved, render the expander
+            if "source_docs" in message and message["source_docs"]:
+                with st.expander("📚 Counseling context used", expanded=False):
+                    for i, doc_dict in enumerate(message["source_docs"]):
+                        dialogue_id = doc_dict.get("metadata", {}).get("dialogue_id", "N/A")
+                        st.caption(f"Source {i+1} — Dialogue #{dialogue_id}")
+                        content = doc_dict.get("content", "")
+                        st.text(content[:300] + "..." if len(content) > 300 else content)
+                        if i < len(message["source_docs"]) - 1:
+                            st.markdown("---")
 
     # Chat input
     user_input = st.chat_input("Share what's on your mind... I'm here to listen 🌿")
@@ -514,9 +525,13 @@ def main():
                                 if i < len(source_docs) - 1:
                                     st.markdown("---")
 
-                    # Store assistant message
+                    # Store assistant message with source docs
+                    source_docs_dicts = [
+                        {"content": doc.page_content, "metadata": doc.metadata}
+                        for doc in (source_docs if source_docs else [])
+                    ]
                     st.session_state.messages.append(
-                        {"role": "assistant", "content": result}
+                        {"role": "assistant", "content": result, "source_docs": source_docs_dicts}
                     )
 
                 except FileNotFoundError:
