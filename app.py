@@ -287,8 +287,21 @@ st.markdown("""
 
     /* ── Hide default Streamlit branding ── */
     #MainMenu {visibility: hidden;}
-    /* header {visibility: hidden;}  <- Commented out so the sidebar expand button remains visible */
     footer {visibility: hidden;}
+    
+    /* ── Force Sidebar Expand Arrow to be Visible ── */
+    [data-testid="collapsedControl"] {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        color: #7ec8c8 !important;
+        background-color: rgba(14, 30, 30, 0.9) !important;
+        border-radius: 8px !important;
+        z-index: 999999 !important;
+    }
+    header[data-testid="stHeader"] {
+        background: transparent !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
