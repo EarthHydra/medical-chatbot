@@ -27,8 +27,9 @@ env/
 .DS_Store
 Thumbs.db
 
-# Vectorstore (rebuild with ingest script)
-vectorstore/db_counseling/
+# Vectorstore (included for deployment)
+# vectorstore/db_counseling/ - removed to enable deployment
+
 
 # Misc
 *.log

@@ -379,7 +379,7 @@ def main():
                     )
                     
                     # Get response and source documents
-                    source_docs = retriever.get_relevant_documents(user_input)
+                    source_docs = retriever.invoke(user_input)
                     result = rag_chain.invoke(user_input)
                     
                     # Display response
