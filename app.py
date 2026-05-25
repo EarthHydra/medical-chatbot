@@ -8,9 +8,9 @@ import os
 import streamlit as st
 
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_community.chains import RetrievalQA
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import PromptTemplate
+from langchain_core.runnables import RunnablePassthrough
 from langchain_groq import ChatGroq
 
 from prompts import CHAT_PROMPT_TEMPLATE, WELCOME_MESSAGE, CRISIS_RESOURCES
@@ -354,34 +354,38 @@ def main():
                     # Load vectorstore
                     vectorstore = get_vectorstore()
 
-                    # Build RAG chain
+                    # Build RAG chain using modern LangChain approach
                     prompt = PromptTemplate(
                         template=CHAT_PROMPT_TEMPLATE,
                         input_variables=["context", "question"],
                     )
 
-                    qa_chain = RetrievalQA.from_chain_type(
-                        llm=ChatGroq(
-                            model_name="meta-llama/llama-4-maverick-17b-128e-instruct",
-                            temperature=0.3,
-                            groq_api_key=groq_api_key,
-                        ),
-                        chain_type="stuff",
-                        retriever=vectorstore.as_retriever(search_kwargs={"k": 3}),
-                        return_source_documents=True,
-                        chain_type_kwargs={"prompt": prompt},
+                    llm = ChatGroq(
+                        model_name="meta-llama/llama-4-maverick-17b-128e-instruct",
+                        temperature=0.3,
+                        groq_api_key=groq_api_key,
                     )
-
-                    # Get response
-                    response = qa_chain.invoke({"query": user_input})
-                    result = response["result"]
-
+                    
+                    retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+                    
+                    # Create RAG chain: retriever -> format docs -> prompt -> llm
+                    def format_docs(docs):
+                        return "\n\n".join([doc.page_content for doc in docs])
+                    
+                    rag_chain = (
+                        {"context": retriever | format_docs, "question": RunnablePassthrough()}
+                        | prompt
+                        | llm
+                    )
+                    
+                    # Get response and source documents
+                    source_docs = retriever.get_relevant_documents(user_input)
+                    result = rag_chain.invoke(user_input)
+                    
                     # Display response
                     st.markdown(result)
-
+                    
                     # Show source context in expander
-                    source_docs = response.get("source_documents", [])
-                    if source_docs:
                         with st.expander("📚 Counseling context used", expanded=False):
                             for i, doc in enumerate(source_docs):
                                 dialogue_id = doc.metadata.get("dialogue_id", "N/A")
