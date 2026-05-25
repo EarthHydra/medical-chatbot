@@ -47,7 +47,7 @@ def classify_message(message: str, groq_api_key: str) -> dict | None:
     """
     try:
         llm = ChatGroq(
-            model_name="mixtral-8x7b-32768",
+            model_name="llama-3.1-70b-versatile",
             temperature=0.0,
             groq_api_key=groq_api_key,
         )
