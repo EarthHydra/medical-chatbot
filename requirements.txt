@@ -28,5 +28,6 @@ python-dotenv>=1.0.0
 
 # ML Backend
 torch>=2.0.0
+torchvision>=0.15.0
 transformers>=4.40.0
 huggingface-hub>=0.20.0
