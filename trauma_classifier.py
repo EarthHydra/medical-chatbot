@@ -112,6 +112,14 @@ def render_session_insights():
     """Render the session insights panel in the Streamlit sidebar."""
     init_session_profile()
     profile = st.session_state.trauma_profile
+    
+    # Safety check: if profile is still None, return early
+    if profile is None:
+        st.sidebar.markdown(
+            '<p style="color: #b0b0b0; font-style: italic;">Session insights will appear here as you chat.</p>',
+            unsafe_allow_html=True,
+        )
+        return
 
     if profile["message_count"] == 0:
         st.sidebar.markdown(
