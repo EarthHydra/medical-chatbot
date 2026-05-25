@@ -380,7 +380,8 @@ def main():
                     
                     # Get response and source documents
                     source_docs = retriever.invoke(user_input)
-                    result = rag_chain.invoke(user_input)
+                    response = rag_chain.invoke(user_input)
+                    result = response.content  # Extract just the text content
                     
                     # Display response
                     st.markdown(result)
