@@ -1,5 +1,5 @@
 """
-SafeSpace — Trauma-Informed AI Support Chatbot
+Nayi Disha — Trauma-Informed AI Support Chatbot
 A compassionate chat companion for survivors of abuse.
 Built with Streamlit, LangChain, FAISS, and Groq.
 """
@@ -34,66 +34,87 @@ except ImportError:
 # Page Configuration
 # ─────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="SafeSpace — You Are Not Alone",
-    page_icon="💜",
+    page_title="Nayi Disha — A New Direction",
+    page_icon="🌿",
     layout="centered",
     initial_sidebar_state="expanded",
 )
 
 
 # ─────────────────────────────────────────────────────────────
-# Custom CSS — Warm, Calming Design
+# Custom CSS — Professional, Soothing, Warm Design
 # ─────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-    /* ── Import Google Font ── */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    /* ── Import Google Fonts ── */
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
     /* ── Global ── */
     html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Inter', 'Outfit', sans-serif;
     }
 
-    /* ── Main container ── */
+    /* ── Main container — deep calming teal-black gradient ── */
     .stApp {
-        background: linear-gradient(160deg, #1a1025 0%, #1e1232 30%, #1a1025 70%, #150d1f 100%);
+        background: linear-gradient(160deg, #0b1a1a 0%, #0f2424 25%, #0d1f1f 50%, #0a1616 100%);
     }
 
     /* ── Header ── */
-    .safespace-header {
+    .nd-header {
         text-align: center;
-        padding: 1.5rem 1rem 1rem;
+        padding: 2rem 1rem 1.2rem;
         margin-bottom: 0.5rem;
     }
-    .safespace-header h1 {
-        background: linear-gradient(135deg, #c084fc 0%, #a78bfa 30%, #818cf8 60%, #c084fc 100%);
+    .nd-header .nd-icon {
+        font-size: 2.4rem;
+        margin-bottom: 0.3rem;
+        display: block;
+        animation: gentlePulse 4s ease-in-out infinite;
+    }
+    .nd-header h1 {
+        background: linear-gradient(135deg, #5eadad 0%, #7ec8c8 35%, #a8dcd0 70%, #5eadad 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        font-size: 2.2rem;
+        font-family: 'Outfit', sans-serif;
+        font-size: 2.4rem;
         font-weight: 700;
-        margin-bottom: 0.25rem;
+        margin-bottom: 0.15rem;
         letter-spacing: -0.5px;
     }
-    .safespace-header p {
-        color: #a78bfa;
-        font-size: 0.95rem;
+    .nd-header .nd-subtitle {
+        color: #7ec8c8;
+        font-size: 0.88rem;
         font-weight: 300;
+        font-style: italic;
         opacity: 0.85;
+        letter-spacing: 0.3px;
+    }
+    .nd-header .nd-tagline {
+        color: #8fb8b0;
+        font-size: 0.82rem;
+        font-weight: 400;
+        margin-top: 0.5rem;
+        opacity: 0.7;
+    }
+
+    @keyframes gentlePulse {
+        0%, 100% { transform: scale(1); opacity: 0.9; }
+        50% { transform: scale(1.05); opacity: 1; }
     }
 
     /* ── Chat message styling ── */
     .stChatMessage {
-        border-radius: 16px !important;
-        margin-bottom: 0.75rem !important;
-        border: 1px solid rgba(139, 92, 246, 0.08) !important;
-        animation: fadeInUp 0.4s ease-out;
+        border-radius: 18px !important;
+        margin-bottom: 0.85rem !important;
+        border: 1px solid rgba(94, 173, 173, 0.06) !important;
+        animation: fadeInUp 0.45s ease-out;
     }
 
     @keyframes fadeInUp {
         from {
             opacity: 0;
-            transform: translateY(12px);
+            transform: translateY(14px);
         }
         to {
             opacity: 1;
@@ -101,88 +122,123 @@ st.markdown("""
         }
     }
 
-    /* ── User message ── */
+    /* ── User message — soft warm rose tint ── */
     [data-testid="stChatMessage"][aria-label="user"] {
-        background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(109, 40, 217, 0.08) 100%) !important;
+        background: linear-gradient(135deg, rgba(173, 124, 124, 0.10) 0%, rgba(140, 100, 100, 0.06) 100%) !important;
+        border: 1px solid rgba(173, 124, 124, 0.10) !important;
     }
 
-    /* ── Assistant message ── */
+    /* ── Assistant message — glassmorphism teal ── */
     [data-testid="stChatMessage"][aria-label="assistant"] {
-        background: rgba(30, 20, 50, 0.6) !important;
-        backdrop-filter: blur(10px);
+        background: rgba(14, 30, 30, 0.65) !important;
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(94, 173, 173, 0.10) !important;
     }
 
     /* ── Chat input ── */
     .stChatInput {
-        border-radius: 24px !important;
+        border-radius: 28px !important;
     }
     .stChatInput > div {
-        border-radius: 24px !important;
-        border: 1.5px solid rgba(139, 92, 246, 0.25) !important;
-        background: rgba(30, 20, 50, 0.7) !important;
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 28px !important;
+        border: 1.5px solid rgba(94, 173, 173, 0.20) !important;
+        background: rgba(14, 30, 30, 0.75) !important;
+        transition: border-color 0.35s ease, box-shadow 0.35s ease;
     }
     .stChatInput > div:focus-within {
-        border-color: rgba(139, 92, 246, 0.5) !important;
-        box-shadow: 0 0 20px rgba(139, 92, 246, 0.15) !important;
+        border-color: rgba(94, 173, 173, 0.45) !important;
+        box-shadow: 0 0 24px rgba(94, 173, 173, 0.10) !important;
     }
 
     /* ── Sidebar ── */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #1a1025 0%, #150d1f 100%) !important;
-        border-right: 1px solid rgba(139, 92, 246, 0.12);
+        background: linear-gradient(180deg, #0b1a1a 0%, #091414 100%) !important;
+        border-right: 1px solid rgba(94, 173, 173, 0.08);
     }
 
     [data-testid="stSidebar"] .stMarkdown h3 {
-        color: #c084fc;
+        color: #7ec8c8;
+        font-family: 'Outfit', sans-serif;
         font-weight: 600;
         font-size: 1rem;
     }
 
+    /* ── Sidebar brand block ── */
+    .sidebar-brand {
+        text-align: center;
+        padding: 1rem 0.5rem 0.6rem;
+    }
+    .sidebar-brand .brand-icon {
+        font-size: 1.6rem;
+        margin-bottom: 0.2rem;
+    }
+    .sidebar-brand h2 {
+        font-family: 'Outfit', sans-serif;
+        background: linear-gradient(135deg, #5eadad, #a8dcd0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin: 0;
+    }
+    .sidebar-brand p {
+        color: #6ea8a0;
+        font-size: 0.72rem;
+        font-style: italic;
+        margin: 0;
+        opacity: 0.8;
+    }
+
     /* ── Crisis resource card ── */
     .crisis-card {
-        background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(185, 28, 28, 0.06) 100%);
-        border: 1px solid rgba(220, 38, 38, 0.2);
-        border-radius: 12px;
-        padding: 0.85rem 1rem;
+        background: linear-gradient(135deg, rgba(220, 80, 80, 0.08) 0%, rgba(180, 60, 60, 0.04) 100%);
+        border: 1px solid rgba(220, 80, 80, 0.15);
+        border-radius: 14px;
+        padding: 0.75rem 1rem;
         margin-bottom: 0.5rem;
+        transition: border-color 0.3s ease, background 0.3s ease;
+    }
+    .crisis-card:hover {
+        border-color: rgba(220, 80, 80, 0.30);
+        background: linear-gradient(135deg, rgba(220, 80, 80, 0.12) 0%, rgba(180, 60, 60, 0.06) 100%);
     }
     .crisis-card p {
         margin: 0;
-        font-size: 0.85rem;
+        font-size: 0.84rem;
     }
     .crisis-card .hotline-name {
-        color: #fca5a5;
+        color: #e8a0a0;
         font-weight: 500;
     }
     .crisis-card .hotline-number {
-        color: #fecaca;
+        color: #f0c0c0;
         font-weight: 700;
-        font-size: 1rem;
+        font-size: 0.95rem;
         letter-spacing: 0.5px;
     }
 
     /* ── Disclaimer box ── */
     .disclaimer-box {
-        background: rgba(139, 92, 246, 0.06);
-        border: 1px solid rgba(139, 92, 246, 0.15);
-        border-radius: 12px;
+        background: rgba(94, 173, 173, 0.05);
+        border: 1px solid rgba(94, 173, 173, 0.10);
+        border-radius: 14px;
         padding: 0.85rem 1rem;
         margin-top: 1rem;
     }
     .disclaimer-box p {
-        color: #a78bfa;
-        font-size: 0.78rem;
+        color: #7eb8b0;
+        font-size: 0.76rem;
         margin: 0;
-        line-height: 1.5;
+        line-height: 1.55;
         opacity: 0.8;
     }
 
     /* ── Insight section ── */
     .insight-section {
-        background: rgba(139, 92, 246, 0.06);
-        border: 1px solid rgba(139, 92, 246, 0.12);
-        border-radius: 12px;
+        background: rgba(94, 173, 173, 0.05);
+        border: 1px solid rgba(94, 173, 173, 0.10);
+        border-radius: 14px;
         padding: 1rem;
         margin-top: 0.75rem;
     }
@@ -190,22 +246,43 @@ st.markdown("""
     /* ── Expander styling ── */
     .streamlit-expanderHeader {
         font-size: 0.85rem !important;
-        color: #a78bfa !important;
+        color: #7ec8c8 !important;
     }
 
     /* ── Scrollbar ── */
     ::-webkit-scrollbar {
-        width: 6px;
+        width: 5px;
     }
     ::-webkit-scrollbar-track {
         background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-        background: rgba(139, 92, 246, 0.3);
+        background: rgba(94, 173, 173, 0.25);
         border-radius: 3px;
     }
     ::-webkit-scrollbar-thumb:hover {
-        background: rgba(139, 92, 246, 0.5);
+        background: rgba(94, 173, 173, 0.45);
+    }
+
+    /* ── Buttons ── */
+    .stButton > button {
+        border-radius: 14px !important;
+        border: 1px solid rgba(94, 173, 173, 0.20) !important;
+        background: rgba(94, 173, 173, 0.08) !important;
+        color: #a8dcd0 !important;
+        font-weight: 500 !important;
+        transition: all 0.3s ease !important;
+    }
+    .stButton > button:hover {
+        border-color: rgba(94, 173, 173, 0.40) !important;
+        background: rgba(94, 173, 173, 0.15) !important;
+        box-shadow: 0 4px 16px rgba(94, 173, 173, 0.10) !important;
+    }
+
+    /* ── Progress bars ── */
+    .stProgress > div > div > div > div {
+        background: linear-gradient(90deg, #5eadad, #7ec8c8) !important;
+        border-radius: 8px !important;
     }
 
     /* ── Hide default Streamlit branding ── */
@@ -258,14 +335,22 @@ def get_groq_api_key() -> str:
 def render_sidebar():
     """Render the sidebar with crisis resources and session insights."""
     with st.sidebar:
-        st.markdown("### 💜 SafeSpace")
+        # Brand block
+        st.markdown(
+            """<div class="sidebar-brand">
+                <div class="brand-icon">🌿</div>
+                <h2>Nayi Disha</h2>
+                <p>A new direction towards healing</p>
+            </div>""",
+            unsafe_allow_html=True,
+        )
         st.markdown("---")
 
         # Crisis Resources
         st.markdown("### 🆘 Crisis Resources")
         st.markdown(
-            '<p style="color: #fca5a5; font-size: 0.82rem; margin-bottom: 0.75rem;">'
-            "If you're in immediate danger, please call these numbers:</p>",
+            '<p style="color: #e8a0a0; font-size: 0.82rem; margin-bottom: 0.75rem;">'
+            "If you're in immediate danger, please reach out:</p>",
             unsafe_allow_html=True,
         )
 
@@ -287,7 +372,7 @@ def render_sidebar():
         # Disclaimer
         st.markdown(
             """<div class="disclaimer-box">
-                <p>⚠️ <strong>Disclaimer:</strong> SafeSpace is an AI support tool and 
+                <p>⚠️ <strong>Disclaimer:</strong> Nayi Disha is an AI support tool and 
                 does <strong>not</strong> replace professional counseling, therapy, or 
                 legal advice. If you are in danger, please contact emergency services 
                 immediately. All conversations are processed in real-time and are 
@@ -314,9 +399,11 @@ def main():
 
     # Header
     st.markdown(
-        """<div class="safespace-header">
-            <h1>💜 SafeSpace</h1>
-            <p>A safe place to be heard. You are not alone.</p>
+        """<div class="nd-header">
+            <span class="nd-icon">🌿</span>
+            <h1>Nayi Disha</h1>
+            <p class="nd-subtitle">A new direction towards healing</p>
+            <p class="nd-tagline">You are safe here. You are heard. You are not alone.</p>
         </div>""",
         unsafe_allow_html=True,
     )
@@ -327,17 +414,17 @@ def main():
 
     # Show welcome message if no messages yet
     if not st.session_state.messages:
-        with st.chat_message("assistant", avatar="💜"):
+        with st.chat_message("assistant", avatar="🌿"):
             st.markdown(WELCOME_MESSAGE)
 
     # Display chat history
     for message in st.session_state.messages:
-        avatar = "💜" if message["role"] == "assistant" else None
+        avatar = "🌿" if message["role"] == "assistant" else None
         with st.chat_message(message["role"], avatar=avatar if message["role"] == "assistant" else None):
             st.markdown(message["content"])
 
     # Chat input
-    user_input = st.chat_input("Share what's on your mind... I'm here to listen 💜")
+    user_input = st.chat_input("Share what's on your mind... I'm here to listen 🌿")
 
     if user_input:
         # Display user message
@@ -349,7 +436,7 @@ def main():
         groq_api_key = get_groq_api_key()
 
         # Generate response
-        with st.chat_message("assistant", avatar="💜"):
+        with st.chat_message("assistant", avatar="🌿"):
             with st.spinner(""):
                 try:
                     # Load vectorstore

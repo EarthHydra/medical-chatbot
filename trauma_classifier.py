@@ -1,5 +1,5 @@
 """
-SafeSpace — Real-Time Trauma Classifier
+Nayi Disha — Real-Time Trauma Classifier
 Classifies user messages into abuse/trauma categories using LLM.
 Maintains a running session profile for the sidebar insights panel.
 """
