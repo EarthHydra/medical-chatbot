@@ -386,6 +386,7 @@ def main():
                     st.markdown(result)
                     
                     # Show source context in expander
+                    if source_docs:
                         with st.expander("📚 Counseling context used", expanded=False):
                             for i, doc in enumerate(source_docs):
                                 dialogue_id = doc.metadata.get("dialogue_id", "N/A")
