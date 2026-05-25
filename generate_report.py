@@ -867,19 +867,19 @@ def generate_report():
     add_formatted_paragraph(
         doc,
         'The user interface is built using Streamlit with extensive custom CSS for a calming, '
-        'dark-purple-themed design. Key UI elements include:',
+        'teal and dark green-themed design. Key UI elements include:',
         font_size=12, alignment=WD_ALIGN_PARAGRAPH.JUSTIFY,
         space_before=6, space_after=6, line_spacing=1.5
     )
 
     ui_features = [
-        "A gradient header with the SafeSpace branding and welcoming tagline.",
-        "Chat message bubbles with fade-in animations for a warm, conversational feel.",
-        "A rounded chat input with a purple glow effect on focus.",
+        "A gradient header with the Nayi Disha branding and welcoming tagline.",
+        "Chat message bubbles with fade-in animations and glassmorphism for a warm, modern feel.",
+        "A rounded chat input with a teal glow effect on focus.",
         "An expandable \"Counseling context used\" section showing the retrieved source documents.",
         "A sidebar containing crisis resources, session insights (severity, category breakdown with "
         "progress bars), a disclaimer, and a \"Start New Session\" button.",
-        "Custom CSS for scrollbar theming, hidden Streamlit branding, and Google Fonts (Inter) "
+        "Custom CSS for scrollbar theming, hidden Streamlit branding, and Google Fonts (Outfit, Inter) "
         "integration.",
     ]
     for feature in ui_features:
@@ -1082,13 +1082,14 @@ def generate_report():
 
     add_formatted_paragraph(
         doc,
-        'The following screenshots demonstrate the key features and outputs of the Nayi Disha system:',
+        'Nayi Disha is fully implemented and operational as a Streamlit web application. '
+        'The following figures showcase the real-time functionality of the system:',
         font_size=12, alignment=WD_ALIGN_PARAGRAPH.JUSTIFY,
-        space_before=6, space_after=8, line_spacing=1.5
+        space_before=6, space_after=12, line_spacing=1.5
     )
 
     screenshot_placeholders = [
-        ("[Insert Figure 5.1.1: User Chat Dashboard here]", "Figure 5.1.1: The main chat interface showing the SafeSpace header, welcome message, and chat input area."),
+        ("[Insert Figure 5.1.1: User Chat Dashboard here]", "Figure 5.1.1: The main chat interface showing the Nayi Disha header, welcome message, and chat input area."),
         ("[Insert Figure 5.1.2: Empathetic Response Example here]", "Figure 5.1.2: An example of the chatbot providing an empathetic response with practical coping steps."),
         ("[Insert Figure 5.1.3: Crisis Resource Panel here]", "Figure 5.1.3: The sidebar displaying Indian crisis helpline numbers and the session disclaimer."),
         ("[Insert Figure 5.1.4: Counseling Context Retrieval here]", "Figure 5.1.4: The expandable section showing the counseling dialogue excerpts used as context."),
