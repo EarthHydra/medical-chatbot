@@ -5,6 +5,7 @@ Built with Streamlit, LangChain, FAISS, and Groq.
 """
 
 import os
+import re
 import streamlit as st
 
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -382,7 +383,24 @@ def main():
                     source_docs = retriever.invoke(user_input)
                     response = rag_chain.invoke(user_input)
                     result = response.content  # Extract just the text content
-                    
+
+                    # Ensure response contains actionable 'how-to' steps; if not, append concise steps
+                    try:
+                        has_action_words = re.search(r'\b(try|do|practice|exercise|step|steps|ground|breathe|breath|breathing|journal|plan|routine|task)\b', result, re.I)
+                        has_list = re.search(r'(^\s*[-*•]|\d+\.)', result, re.M)
+                        if not (has_action_words or has_list):
+                            steps_prompt = (
+                                "In a gentle, supportive tone, provide 4 concise, numbered, and practical steps "
+                                f"(one sentence each) that the person can try right away for this message: \"{user_input}\". "
+                                "Start each step with a verb and keep them actionable and safe."
+                            )
+                            steps_resp = llm.invoke(steps_prompt)
+                            steps_text = steps_resp.content
+                            result = result.strip() + "\n\nPractical steps:\n" + steps_text.strip()
+                    except Exception:
+                        # If augmentation fails, continue with original result
+                        pass
+
                     # Display response
                     st.markdown(result)
                     
