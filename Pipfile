@@ -7,11 +7,14 @@ name = "pypi"
 langchain = "*"
 langchain-community = "*"
 langchain-huggingface = "*"
+langchain-groq = "*"
 faiss-cpu = "*"
 pypdf = "*"
 streamlit = "*"
-langchain-groq = "*"
 sentence-transformers = "*"
+pandas = "*"
+python-dotenv = "*"
+groq = "*"
 
 [dev-packages]
 
