@@ -76,7 +76,7 @@ def main():
 
             qa_chain = RetrievalQA.from_chain_type(
                 llm=ChatGroq(
-                    model_name="meta-llama/llama-4-maverick-17b-128e-instruct",  # free, fast Groq-hosted model
+                    model_name="mixtral-8x7b-32768",  # Available Groq model
                     temperature=0.0,
                     groq_api_key=os.environ["GROQ_API_KEY"],
                 ),
