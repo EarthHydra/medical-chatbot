@@ -23,10 +23,6 @@ A compassionate AI chatbot designed to provide a safe, low-barrier entry point f
 ```bash
 # Using pip
 pip install -r requirements.txt
-
-# Or using pipenv
-pipenv install
-pipenv shell
 ```
 
 ### 2. Set Up API Key
